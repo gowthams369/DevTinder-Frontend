@@ -1,8 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
+import axios from 'axios'
 
 const Login = () => {
+  const [emailId, setEmailId] = useState('')
+  const [password, setPassword] = useState('')
+
+  const handleClick = async () => {
+    try {
+      const res = await axios.post("http://localhost:7777/api/user/login", {
+        emailId,
+        password
+      });
+      console.log("login sucessfull!")
+    } catch (error) {
+      console.log(error)
+
+    }
+  }
+
+
   return (
-    <div className='flex justify-center items-center min-h-screen'>
+    <div className='flex justify-center items-center min-h-screen my-10'>
       <div className="card bg-base-300 w-96 shadow-sm rounded-lg ">
         <div className="card-body space-y-6">
           <h2 className="card-title">Login Here!</h2>
@@ -21,7 +39,11 @@ const Login = () => {
             </svg>
             <input
               className='w-full outline-none'
-              type="email" placeholder="mail@site.com" required />
+              type="email"
+              value={emailId}
+              onChange={(e) => setEmailId(e.target.value)}
+              placeholder="mail@site.com"
+              required />
           </label>
 
           <div className="validator-hint hidden">Enter valid email address</div>
@@ -41,11 +63,13 @@ const Login = () => {
               </g>
             </svg>
             <input
-             className='w-full outline-none'
+              className='w-full outline-none'
               type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
               placeholder="Password"
-              minlength="8"
+              minLength="8"
               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
               title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
             />
@@ -55,7 +79,7 @@ const Login = () => {
             <br />At least one number <br />At least one lowercase letter <br />At least one uppercase letter
           </p>
           <div>
-            <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 align cursor-pointer">Login</button>
+            <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 align cursor-pointer" onClick={handleClick}>Login</button>
           </div>
         </div>
       </div>
